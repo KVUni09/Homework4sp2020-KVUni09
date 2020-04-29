@@ -1,0 +1,9 @@
+AssetIDNumber,AssetName,AssetType,AssetLocation,UsedBy,AssetState
+IT43567,HC-Laptop-Miller,Computer,Room 367,Stephen Miller,in use
+IT2349,HC-Desktop-Mills,Computer,Room 324,Laura Mills,in use
+IT298709,IT-FileServer,Computer,Server room,,in use
+P3567,HP-Color_Laser Frontdesk,Printer,Front Office,Ms. Betsy,in use
+P3455,Black and white Printer Boss,Printer,Printer Room,,needs repair
+B12346,Projector Conf Room,Audio/video,Conf Room,,in use
+IT983456,HC-Laptp-Rick,Computer,floating,Rick Astley,in use
+IT345219,HC-Desktop-1,Computer,storage,,in storage

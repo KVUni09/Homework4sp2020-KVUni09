@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="AssetManagementSystem2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/AssetManagementSystem.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
