@@ -150,5 +150,57 @@ public class ManagementGUIController implements Initializable {
                 System.out.println("Error trying to close file.");
             }
         }
+        //tell inital numbers for categories in labels
+        updateNumInCategoriesLabels();
+        //set fatories for how to use data from onbservable
+        //list for each column in a row
+        idNumberTableColumn.setCellValueFactory(
+                cellData -> new SimpleStringProperty(
+                        cellData.getValue().getId()));
+
+        assetNameTableColumn.setCellValueFactory(
+                cellData -> new SimpleStringProperty(
+                        cellData.getValue().getName()));
+
+        assetTypeTableColumn.setCellValueFactory(
+                cellData -> new SimpleStringProperty(
+                        cellData.getValue().getType().getName()));
+        assetLocationTableColumn.setCellValueFactory(
+                cellData -> new SimpleStringProperty(
+                        cellData.getValue().getLocation()));
+        usedByTableColumn.setCellValueFactory(
+                cellData -> new SimpleStringProperty(
+                        cellData.getValue().getUsedBy()));
+        assetStateTableColumn.setCellValueFactory(
+                cellData -> new SimpleStringProperty(
+                        cellData.getValue().getAssetState().getName()));
+        assetTableView.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldSelection, newSelection) -> {
+                    if (newSelection != null) {
+                        selectedAsset = newSelection;
+                        selectedItemLabel.setText("Selected Asset: " + selectedAsset.getName());
+                        this.editSlectedAssetLabel.setText("Selected Asset: " + selectedAsset.getName());
+                    } else {
+                        selectedAsset=null;
+                        selectedItemLabel.setText("Selected Asset: None Selected");
+                        editSlectedAssetLabel.setText("Selected Asset: None Selected");
+                    }
+                });
+        //set-up add and edit tab choice boc choices
+        assetTypeChoiceBox.getItems().addAll("Computer", "Printer", "Audio/video");
+        assetStateChoiceBox.getItems().addAll("in use", "needs repair", "in storage");
+        editAssetTypeChoiceBox.getItems().addAll("Computer", "Printer", "Audio/video");
+        editAssetStateChoiceBox.getItems().addAll("in use", "needs repair", "in storage");
+        //if liost changes update category count in labels in case they changed
+        assetsObservableList.addListener(new ListChangeListener<TechnologyAsset>() {
+            @Override
+            public void onChanged(ListChangeListener.Change<? extends TechnologyAsset> c) {
+                updateNumInCategoriesLabels();
+            }
+
+
+
+        });
+    }
 
 }
