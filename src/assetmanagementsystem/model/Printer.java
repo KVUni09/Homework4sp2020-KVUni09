@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package assetmanagementsystem.model;
 
 /**
  *
- * @author kyle
+ * @author Kiel Roi Velasco
  */
 public class Printer extends TechnologyAsset {
-    
+
     public Printer(String idNumber, String name, String location, String usedBy, AssetState assetState){
         super.type=TechnologyType.PRINTER;
         super.id=idNumber;
@@ -23,14 +19,20 @@ public class Printer extends TechnologyAsset {
 
     @Override
     public String configureIPAddress() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        super.IPAddress=IPAddressConfigurer.getInstance().staticIPAddresses.remove(0);
+        return "Your new static IP adress is "+super.IPAddress;
+    }
+
+    public void giveBackIPAddress(){
+        IPAddressConfigurer.getInstance().staticIPAddresses.add(super.IPAddress);
+        super.IPAddress="";
     }
 
     @Override
     public String performMaintenance() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Updating driver software and cleaning or replacing cartridges.";
     }
-    
+
     public String print(){
         return "Look at me!  100 pages per minute";
     }
