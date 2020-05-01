@@ -413,4 +413,29 @@ public class ManagementGUIController implements Initializable {
         }
     }
 
+    @FXML
+    private void performMaintenance(ActionEvent event) {
+        //call polymorphic method performMaintenance
+        if (selectedAsset!=null) {
+            String newOutput=selectedAsset.performMaintenance();
+            outputTextArea.setText(outputTextArea.getText()+newOutput+"\n");
+        } else {
+            Alert alert = new Alert(AlertType.WARNING, "You must select an asset to perform maintenance on.", ButtonType.OK);
+            alert.show();
+        }
+    }
+
+    @FXML
+    private void configureIPAdress(ActionEvent event) {
+        //call polymorphic method configureIPAddress
+        if (selectedAsset!=null) {
+            String newOutput="";
+            newOutput=selectedAsset.configureIPAddress();
+            outputTextArea.setText(outputTextArea.getText()+newOutput+"\n");
+        } else {
+            Alert alert = new Alert(AlertType.WARNING, "You must select an asset to configure its IP adress.", ButtonType.OK);
+            alert.show();
+        }
+    }
+
 }
