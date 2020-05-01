@@ -221,4 +221,25 @@ public class ManagementGUIController implements Initializable {
         numAudioVideoAssetsLabel.setText("Number of Audio/Video Assets "+numAuidoVideo);
     }
 
+    @FXML
+    private void deleteAsset(ActionEvent event) {
+        //if selected asset is not null, delete it
+        if (selectedAsset != null) {
+            String newOutput="";
+            if (selectedAsset instanceof Computer) {
+                //do nothing
+            }
+            else if (selectedAsset instanceof Printer) {
+                Printer printer=(Printer)selectedAsset;
+                printer.giveBackIPAddress();
+            }
+            else if (selectedAsset instanceof Projector) {
+                Projector projector=(Projector)selectedAsset;
+                projector.giveBackIPAddress();
+            }
+            outputTextArea.setText(outputTextArea.getText()+newOutput+"\n");
+            assetsObservableList.remove(selectedAsset);
+        }
+    }
+
 }
