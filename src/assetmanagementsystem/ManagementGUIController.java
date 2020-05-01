@@ -301,4 +301,33 @@ public class ManagementGUIController implements Initializable {
         }
     }
 
+    @FXML
+    private void saveAssets(ActionEvent event) {
+        //save asets to file
+        FileWriter fileWriter = null;
+        PrintWriter printWriter = null;
+        try {
+            fileWriter = new FileWriter(new File("assets.csv"));
+            printWriter = new PrintWriter(fileWriter);
+            printWriter.println("AssetIDNumber,AssetName,AssetType,AssetLocation,UsedBy,AssetState");
+            for (TechnologyAsset asset : assetsObservableList) {
+                printWriter.println(asset);
+            }
+        } catch (Exception e) {
+            System.out.println("Error trying to write to file.");
+        } finally {
+            //close the file
+            try {
+                if (printWriter != null) {
+                    printWriter.close();
+                }
+                if (fileWriter != null) {
+                    fileWriter.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Error trying to close file.");
+            }
+        }
+    }
+
 }
