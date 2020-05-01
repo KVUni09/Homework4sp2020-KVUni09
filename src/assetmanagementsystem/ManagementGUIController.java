@@ -330,4 +330,62 @@ public class ManagementGUIController implements Initializable {
         }
     }
 
+    @FXML
+    private void saveEdits(ActionEvent event) {
+        //if slected asset is not null and fields are not blank, save edit from edit tab
+        if (selectedAsset != null) {
+            if (editAssetTypeChoiceBox.selectionModelProperty().getValue().getSelectedItem() != null
+                    && editAssetStateChoiceBox.selectionModelProperty().getValue().getSelectedItem() != null
+                    && !editIDTextField.getText().equals("")
+                    && !editNameTextField.getText().equals("")
+                    && !editLocationTextField.getText().equals("")
+                    && !editUsedByTextField.getText().equals("")) {
+                TechnologyType type = TechnologyType.UNDEFINED;
+                switch (editAssetTypeChoiceBox.selectionModelProperty().getValue().getSelectedItem()) {
+                    case "Computer":
+                        type = TechnologyType.COMPUTER;
+                        break;
+                    case "Printer":
+                        type = TechnologyType.PRINTER;
+                        break;
+                    case "Audio/Video":
+                        type = TechnologyType.AUDIO_OR_VIDEO;
+                        break;
+                    default:
+                        type = TechnologyType.UNDEFINED;
+                }
+                AssetState state = AssetState.UNKNOWN;
+                switch (editAssetStateChoiceBox.selectionModelProperty().getValue().getSelectedItem()) {
+                    case "in use":
+                        state = AssetState.IN_USE;
+                        break;
+                    case "needs repair":
+                        state = AssetState.NEEDS_REPAIR;
+                        break;
+                    case "in storage":
+                        state = AssetState.IN_STORAGE;
+                        break;
+                    default:
+                        state = AssetState.UNKNOWN;
+                }
+                try {
+                    TechnologyAsset newAsset = TechnologyAsset.createTechnologyAsset(editIDTextField.getText(), editNameTextField.getText(), type, editLocationTextField.getText(), editUsedByTextField.getText(), state);
+                    int index=assetsObservableList.indexOf(selectedAsset);
+                    assetsObservableList.remove(selectedAsset);
+                    assetsObservableList.add(index, newAsset);
+                    Alert alert = new Alert(AlertType.INFORMATION, "Edited asset now called " + newAsset.getName() + ".", ButtonType.OK);
+                    alert.show();
+                } catch (Exception e) {
+                    System.out.println("Error trying to add technology asset: invalid type.");
+                }
+            } else {
+                Alert alert = new Alert(AlertType.WARNING, "No filed may be left blank.", ButtonType.OK);
+                alert.show();
+            }
+        } else {
+            Alert alert = new Alert(AlertType.WARNING, "You must select an asset to edit.", ButtonType.OK);
+            alert.show();
+        }
+    }
+
 }
