@@ -242,4 +242,63 @@ public class ManagementGUIController implements Initializable {
         }
     }
 
+    @FXML
+    private void clearAddPane(ActionEvent event) {
+        addIDTextField.setText("");
+        addNameTextField.setText("");
+        locationTextFiield.setText("");
+        usedByTextField.setText("");
+    }
+
+    @FXML
+    private void addAsset(ActionEvent event) {
+        if (assetTypeChoiceBox.selectionModelProperty().getValue().getSelectedItem() != null
+                && assetStateChoiceBox.selectionModelProperty().getValue().getSelectedItem() != null
+                && !addIDTextField.getText().equals("")
+                && !addNameTextField.getText().equals("")
+                && !locationTextFiield.getText().equals("")
+                && !usedByTextField.getText().equals("")) {
+            TechnologyType type = TechnologyType.UNDEFINED;
+            switch (assetTypeChoiceBox.selectionModelProperty().getValue().getSelectedItem()) {
+                case "Computer":
+                    type = TechnologyType.COMPUTER;
+                    break;
+                case "Printer":
+                    type = TechnologyType.PRINTER;
+                    break;
+                case "Audio/Video":
+                    type = TechnologyType.AUDIO_OR_VIDEO;
+                    break;
+                default:
+                    type = TechnologyType.UNDEFINED;
+            }
+            AssetState state = AssetState.UNKNOWN;
+            switch (assetStateChoiceBox.selectionModelProperty().getValue().getSelectedItem()) {
+                case "in use":
+                    state = AssetState.IN_USE;
+                    break;
+                case "needs repair":
+                    state = AssetState.NEEDS_REPAIR;
+                    break;
+                case "in storage":
+                    state = AssetState.IN_STORAGE;
+                    break;
+                default:
+                    state = AssetState.UNKNOWN;
+            }
+            try {
+                //create subclass of TechnologyAsset based off of type enum
+                TechnologyAsset newAsset = TechnologyAsset.createTechnologyAsset(addIDTextField.getText(), addNameTextField.getText(), type, locationTextFiield.getText(), usedByTextField.getText(), state);
+                assetsObservableList.add(newAsset);
+                Alert alert = new Alert(AlertType.INFORMATION, "Added new asset called " + newAsset.getName() + ".", ButtonType.OK);
+                alert.show();
+            } catch (Exception e) {
+                System.out.println("Error trying to add technology asset: asset type may not be left blank.");
+            }
+        } else {
+            Alert alert = new Alert(AlertType.WARNING, "You must not leave any field blank.", ButtonType.OK);
+            alert.show();
+        }
+    }
+
 }
