@@ -6,10 +6,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assetmanagementsystem.ManagementGUIController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="644.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assetmanagementsystem.ManagementGUIController">
+        <tabs>
+          <Tab text="Assets">
+            <content>
+                <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="assetTableView" layoutX="14.0" layoutY="14.0" prefHeight="252.0" prefWidth="622.0">
+      <TableView fx:id="assetTableView" layoutX="11.0" layoutY="49.0" prefHeight="252.0" prefWidth="622.0">
         <columns>
           <TableColumn fx:id="idNumberTableColumn" prefWidth="88.0" text="ID Number" />
           <TableColumn fx:id="assetNameTableColumn" prefWidth="178.0" text="Asset Name" />
@@ -19,12 +22,63 @@
             <TableColumn fx:id="assetStateTableColumn" prefWidth="108.0" text="Asset State" />
         </columns>
       </TableView>
-      <Label fx:id="numComputerAsstsLabel" layoutX="217.0" layoutY="280.0" text="Number of  Computer Assets" />
-      <Label fx:id="numPrinterAssetsLabel" layoutX="217.0" layoutY="309.0" text="Number of Printer Assets" />
-      <Label fx:id="numAudioVideoAssetsLabel" layoutX="217.0" layoutY="340.0" text="Number of Audio/Video Assets" />
-      <Label fx:id="selectedItemLabel" layoutX="14.0" layoutY="357.0" text="Selected Asset: None" />
-      <Button fx:id="performMaintenanceButton" layoutX="14.0" layoutY="374.0" mnemonicParsing="false" text="Perform Maintenance" />
-      <Button layoutX="162.0" layoutY="374.0" mnemonicParsing="false" text="Configure IP Address" />
-      <TextArea layoutX="14.0" layoutY="417.0" prefHeight="123.0" prefWidth="573.0" />
+      <Label fx:id="numComputerAsstsLabel" layoutX="214.0" layoutY="315.0" text="Number of  Computer Assets" />
+      <Label fx:id="numPrinterAssetsLabel" layoutX="214.0" layoutY="344.0" text="Number of Printer Assets" />
+      <Label fx:id="numAudioVideoAssetsLabel" layoutX="214.0" layoutY="375.0" text="Number of Audio/Video Assets" />
+      <Label fx:id="selectedItemLabel" layoutX="11.0" layoutY="392.0" text="Selected Asset: None" />
+      <Button fx:id="performMaintenanceButton" layoutX="108.0" layoutY="409.0" mnemonicParsing="false" onAction="#performMaintenance" text="Perform Maintenance" />
+      <Button fx:id="configureIPAddressButton" layoutX="255.0" layoutY="409.0" mnemonicParsing="false" onAction="#configureIPAdress" text="Configure IP Address" />
+      <TextArea fx:id="outputTextArea" editable="false" layoutX="11.0" layoutY="452.0" prefHeight="123.0" prefWidth="622.0" wrapText="true" />
+                  <Button layoutX="11.0" layoutY="409.0" mnemonicParsing="false" onAction="#deleteAsset" text="Delete Asset" />
+                  <Button fx:id="useAssetButton" layoutX="398.0" layoutY="409.0" mnemonicParsing="false" onAction="#useAsset" text="Use Asset" />
+                  <MenuBar layoutX="14.0" layoutY="14.0" prefHeight="29.0" prefWidth="618.0">
+                    <menus>
+                      <Menu mnemonicParsing="false" text="File">
+                        <items>
+                          <MenuItem mnemonicParsing="false" onAction="#saveAssets" text="Save" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+      
    </children>
 </Pane>
+            </content>
+          </Tab>
+          <Tab text="Add Asset">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="addIDTextField" layoutX="242.0" layoutY="14.0" promptText="ID Number" />
+                  <TextField fx:id="addNameTextField" layoutX="242.0" layoutY="56.0" promptText="Name" />
+                  <ChoiceBox fx:id="assetTypeChoiceBox" layoutX="247.0" layoutY="97.0" prefWidth="150.0" />
+                  <TextField fx:id="locationTextFiield" layoutX="242.0" layoutY="138.0" promptText="Location" />
+                  <TextField fx:id="usedByTextField" layoutX="242.0" layoutY="179.0" promptText="Used by" />
+                  <ChoiceBox fx:id="assetStateChoiceBox" layoutX="248.0" layoutY="222.0" prefWidth="150.0" />
+                  <Button layoutX="248.0" layoutY="266.0" mnemonicParsing="false" onAction="#clearAddPane" text="Clear All" />
+                  <Button layoutX="322.0" layoutY="266.0" mnemonicParsing="false" onAction="#addAsset" text="Add Asset" />
+                  <Label layoutX="168.0" layoutY="102.0" text="Asset Type:" />
+                  <Label layoutX="164.0" layoutY="227.0" text="Asset State:" />
+               </children></AnchorPane>
+            </content>
+          </Tab>
+      <Tab text="Edit Asset">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Label layoutX="168.0" layoutY="149.0" text="Asset Type:" />
+                  <Button layoutX="277.0" layoutY="318.0" mnemonicParsing="false" onAction="#saveEdits" text="Save Edits" />
+                  <ChoiceBox fx:id="editAssetStateChoiceBox" layoutX="248.0" layoutY="271.0" prefWidth="150.0" />
+                  <TextField fx:id="editUsedByTextField" layoutX="242.0" layoutY="232.0" promptText="Used by" />
+                  <TextField fx:id="editLocationTextField" layoutX="242.0" layoutY="185.0" promptText="Location" />
+                  <ChoiceBox fx:id="editAssetTypeChoiceBox" layoutX="248.0" layoutY="144.0" prefWidth="150.0" />
+                  <TextField fx:id="editNameTextField" layoutX="242.0" layoutY="101.0" promptText="Name" />
+                  <TextField fx:id="editIDTextField" layoutX="242.0" layoutY="59.0" promptText="ID Number" />
+                  <Label fx:id="editSlectedAssetLabel" layoutX="221.0" layoutY="28.0" text="Selected Asset Name: None Selected" />
+                  <Label layoutX="167.0" layoutY="276.0" text="Asset State:" />
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+        </tabs>
+      </TabPane>
