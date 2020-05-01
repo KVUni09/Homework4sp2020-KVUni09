@@ -100,6 +100,55 @@ public class ManagementGUIController implements Initializable {
     @FXML
     private TextField editIDTextField;
 
-
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        //set items for table view to be an observable list of TechnologyAssets
+        assetTableView.setItems(assetsObservableList);
+        //try to read in all the dta from the file and instantiate
+        //TechnologyAsset subclasses
+        try {
+            fileReader = new FileReader(new File("assets.csv"));
+            bufferedReader = new BufferedReader(fileReader);
+            String line = bufferedReader.readLine();
+            line = bufferedReader.readLine();
+            while (line != null && line.trim() != "") {
+                System.out.println(line);
+                String[] assetStrings = line.split(",");
+                TechnologyType type = TechnologyType.UNDEFINED;
+                if (assetStrings[2].equals("Computer")) {
+                    type = TechnologyType.COMPUTER;
+                } else if (assetStrings[2].equals("Printer")) {
+                    type = TechnologyType.PRINTER;
+                } else if (assetStrings[2].equals("Audio/video")) {
+                    type = TechnologyType.AUDIO_OR_VIDEO;
+                }
+                AssetState state = AssetState.UNKNOWN;
+                if (assetStrings[5].equals("in use")) {
+                    state = AssetState.IN_USE;
+                } else if (assetStrings[5].equals("needs repair")) {
+                    state = AssetState.NEEDS_REPAIR;
+                } else if (assetStrings[5].equals("in storage")) {
+                    state = AssetState.IN_STORAGE;
+                }
+                TechnologyAsset asset = TechnologyAsset.createTechnologyAsset(
+                        assetStrings[0], assetStrings[1], type, assetStrings[3], assetStrings[4], state);
+                assetsObservableList.add(asset);
+                line = bufferedReader.readLine();
+            }
+        } catch (Exception e) {
+            System.out.println("Error trying to read from file.");
+        } finally {
+            //close the file
+            try {
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+                if (fileReader != null) {
+                    fileReader.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Error trying to close file.");
+            }
+        }
 
 }
