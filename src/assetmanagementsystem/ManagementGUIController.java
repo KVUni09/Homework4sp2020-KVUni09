@@ -388,4 +388,29 @@ public class ManagementGUIController implements Initializable {
         }
     }
 
+    @FXML
+    private void useAsset(ActionEvent event) {
+        if (selectedAsset!=null) {
+            //call method based of off what subclass it is
+            //subclass is determined with instanceof operator
+            String newOutput="";
+            if (selectedAsset instanceof Computer) {
+                Computer computer=(Computer)selectedAsset;
+                newOutput=computer.performComputations();
+            }
+            else if (selectedAsset instanceof Printer) {
+                Printer printer=(Printer)selectedAsset;
+                newOutput=printer.print();
+            }
+            else if (selectedAsset instanceof Projector) {
+                Projector projector=(Projector)selectedAsset;
+                newOutput=projector.project();
+            }
+            outputTextArea.setText(outputTextArea.getText()+newOutput+"\n");
+        } else {
+            Alert alert = new Alert(AlertType.WARNING, "You must select an asset to use.", ButtonType.OK);
+            alert.show();
+        }
+    }
+
 }
