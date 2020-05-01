@@ -203,4 +203,22 @@ public class ManagementGUIController implements Initializable {
         });
     }
 
+    private void updateNumInCategoriesLabels(){
+        int numComputers=0;
+        int numPrinters=0;
+        int numAuidoVideo=0;
+        for (TechnologyAsset asset: assetsObservableList) {
+            if (asset.getType()==TechnologyType.COMPUTER) {
+                numComputers+=1;
+            } else if (asset.getType()==TechnologyType.PRINTER) {
+                numPrinters+=1;
+            } else if (asset.getType()==TechnologyType.AUDIO_OR_VIDEO) {
+                numAuidoVideo+=1;
+            }
+        }
+        numComputerAsstsLabel.setText("Number of Computer Assets "+numComputers);
+        numPrinterAssetsLabel.setText("Number of Printer Assets "+numPrinters);
+        numAudioVideoAssetsLabel.setText("Number of Audio/Video Assets "+numAuidoVideo);
+    }
+
 }
